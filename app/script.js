@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { render } from 'react-dom';
 
 const Description = () => {
@@ -22,16 +22,16 @@ const App = () => {
   const [time, setTime] = useState(62);
   const [timer, setTimer] = useState(null);
 
-  const formatTime = (seconds) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
+  const formatTime = useMemo(() => {
+    const minutes = Math.floor(time / 60);
+    const remainingSeconds = time % 60;
 
     const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
     const formattedSeconds =
       remainingSeconds < 10 ? `0${remainingSeconds}` : `${remainingSeconds}`;
 
     return `${formattedMinutes}:${formattedSeconds}`;
-  };
+  }, [time]);
 
   return (
     <div>
@@ -42,7 +42,7 @@ const App = () => {
 
       {status === 'off' && (
         <React.Fragment>
-          <div className='timer'>{formatTime(time)}</div>
+          <div className='timer'>{formatTime}</div>
           <button className='btn'>Start</button>
           <button className='btn'>Stop</button>
         </React.Fragment>
