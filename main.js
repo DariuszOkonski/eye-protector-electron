@@ -4,7 +4,6 @@ const path = require('path');
 const { app, BrowserWindow } = require('electron');
 
 function main() {
-
   // create new window
   let mainWindow = new BrowserWindow({
     webPreferences: {
@@ -13,10 +12,11 @@ function main() {
     },
     width: 800,
     height: 600,
-  })
+  });
 
   // load app/index.html as the window content
   mainWindow.loadFile(path.join('app', 'index.html'));
+  mainWindow.webContents.openDevTools();
 }
 
 app.on('ready', main);
