@@ -19,7 +19,7 @@ const Description = () => {
 
 const App = () => {
   const [status, setStatus] = useState('off');
-  const [time, setTime] = useState(62);
+  const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(null);
 
   const formatTime = useMemo(() => {
@@ -33,18 +33,34 @@ const App = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }, [time]);
 
+  const startTimer = () => {
+    setTime(1200);
+    setStatus('work');
+    setTimer(
+      setInterval(() => {
+        setTime((time) => time + 1);
+      })
+    );
+  };
+
   return (
     <div>
       <h1>Protect your eyes</h1>
       {status === 'off' && <Description />}
-      {status === 'work' && <img src='./images/work.png' />}
+      {status === 'work' && (
+        <React.Fragment>
+          <img src='./images/work.png' />
+          <div className='timer'>{formatTime}</div>
+          <button className='btn'>Stop</button>
+        </React.Fragment>
+      )}
       {status === 'reset' && <img src='./images/rest.png' />}
 
       {status === 'off' && (
         <React.Fragment>
-          <div className='timer'>{formatTime}</div>
-          <button className='btn'>Start</button>
-          <button className='btn'>Stop</button>
+          <button className='btn' onClick={startTimer}>
+            Start
+          </button>
         </React.Fragment>
       )}
 
