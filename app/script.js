@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { render } from 'react-dom';
 
-const App = () => {
+const Description = () => {
   return (
-    <div>
-      <h1>Protect your eyes</h1>
+    <React.Fragment>
       <p>
         According to optometrists in order to save your eyes, you should follow
         the 20/20/20. It means you should to rest your eyes every 20 minutes for
@@ -14,11 +13,30 @@ const App = () => {
         This app will help you track your time and inform you when it's time to
         rest.
       </p>
-      <img src='./images/work.png' />
-      <img src='./images/rest.png' />
-      <div className='timer'>18:23</div>
-      <button className='btn'>Start</button>
-      <button className='btn'>Stop</button>
+    </React.Fragment>
+  );
+};
+
+const App = () => {
+  const [status, setStatus] = useState('off');
+  const [time, setTime] = useState(0);
+  const [timer, setTimer] = useState(null);
+
+  return (
+    <div>
+      <h1>Protect your eyes</h1>
+      {status === 'off' && <Description />}
+      {status === 'work' && <img src='./images/work.png' />}
+      {status === 'reset' && <img src='./images/rest.png' />}
+
+      {status === 'off' && (
+        <React.Fragment>
+          <div className='timer'>18:23</div>
+          <button className='btn'>Start</button>
+          <button className='btn'>Stop</button>
+        </React.Fragment>
+      )}
+
       <button className='btn btn-close'>X</button>
     </div>
   );
