@@ -38,8 +38,8 @@ const App = () => {
     setStatus('work');
     setTimer(
       setInterval(() => {
-        setTime((time) => time + 1);
-      })
+        setTime((time) => time - 1);
+      }, [1000])
     );
   };
 
