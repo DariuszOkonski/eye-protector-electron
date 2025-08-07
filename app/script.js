@@ -19,8 +19,19 @@ const Description = () => {
 
 const App = () => {
   const [status, setStatus] = useState('off');
-  const [time, setTime] = useState(0);
+  const [time, setTime] = useState(62);
   const [timer, setTimer] = useState(null);
+
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const formattedSeconds =
+      remainingSeconds < 10 ? `0${remainingSeconds}` : `${remainingSeconds}`;
+
+    return `${formattedMinutes}:${formattedSeconds}`;
+  };
 
   return (
     <div>
@@ -31,7 +42,7 @@ const App = () => {
 
       {status === 'off' && (
         <React.Fragment>
-          <div className='timer'>18:23</div>
+          <div className='timer'>{formatTime(time)}</div>
           <button className='btn'>Start</button>
           <button className='btn'>Stop</button>
         </React.Fragment>
