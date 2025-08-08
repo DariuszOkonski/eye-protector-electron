@@ -37,6 +37,10 @@ const App = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }, [time]);
 
+  const closeWindow = () => {
+    window.close();
+  };
+
   const stopTimer = () => {
     if (timer) {
       clearInterval(timer);
@@ -125,7 +129,9 @@ const App = () => {
         </React.Fragment>
       )}
 
-      <button className='btn btn-close'>X</button>
+      <button className='btn btn-close' onClick={closeWindow}>
+        X
+      </button>
     </div>
   );
 };
