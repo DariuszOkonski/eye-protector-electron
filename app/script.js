@@ -17,6 +17,18 @@ const Description = () => {
   );
 };
 
+const Display = ({ formatTime, onClick, children }) => {
+  return (
+    <React.Fragment>
+      {children}
+      <div className='timer'>{formatTime}</div>
+      <button className='btn' onClick={onClick}>
+        Stop
+      </button>
+    </React.Fragment>
+  );
+};
+
 const WORK_TIME = 6;
 const REST_TIME = 20;
 const INTERVAL = 1000;
@@ -42,7 +54,7 @@ const App = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }, [time]);
 
-  const closeWindow = () => {
+  const closeApp = () => {
     window.close();
   };
 
@@ -108,22 +120,14 @@ const App = () => {
       <h1>Protect your eyes</h1>
       {status === STATUS.OFF && <Description />}
       {status === STATUS.WORK && (
-        <React.Fragment>
+        <Display formatTime={formatTime} onClick={stopTimer}>
           <img src='./images/work.png' />
-          <div className='timer'>{formatTime}</div>
-          <button className='btn' onClick={stopTimer}>
-            Stop
-          </button>
-        </React.Fragment>
+        </Display>
       )}
       {status === STATUS.RESET && (
-        <React.Fragment>
+        <Display formatTime={formatTime} onClick={stopTimer}>
           <img src='./images/rest.png' />
-          <div className='timer'>{formatTime}</div>
-          <button className='btn' onClick={stopTimer}>
-            Stop
-          </button>
-        </React.Fragment>
+        </Display>
       )}
 
       {status === STATUS.OFF && (
@@ -134,7 +138,7 @@ const App = () => {
         </React.Fragment>
       )}
 
-      <button className='btn btn-close' onClick={closeWindow}>
+      <button className='btn btn-close' onClick={closeApp}>
         X
       </button>
     </div>
