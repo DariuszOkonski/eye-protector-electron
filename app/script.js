@@ -55,13 +55,20 @@ const App = () => {
               console.log('switching to reset');
               setTime(10);
 
-              const breakIntervalId = setInterval(() => {
+              intervalId = setInterval(() => {
                 console.log('another interval');
                 setTime((prevTime) => {
+                  if (prevTime <= 1) {
+                    console.log('END HERE');
+                    clearInterval(intervalId);
+                    setTimer(null);
+                    setStatus('off');
+                  }
+
                   return prevTime - 1;
                 });
 
-                setTimer(breakIntervalId);
+                setTimer(intervalId);
               }, 1000);
 
               return 'reset';
