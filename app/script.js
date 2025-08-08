@@ -17,6 +17,8 @@ const Description = () => {
   );
 };
 
+const TIME_IN_SECONDS = 6;
+
 const App = () => {
   const [status, setStatus] = useState('off');
   const [time, setTime] = useState(0);
@@ -34,22 +36,41 @@ const App = () => {
   }, [time]);
 
   const startTimer = () => {
-    setTime(6);
+    setTime(TIME_IN_SECONDS);
     setStatus('work');
 
-    const interval = setInterval(() => {
+    const intervalId = setInterval(() => {
       setTime((prevTime) => {
         console.log('prevTime: ', prevTime);
 
         if (prevTime <= 1) {
-          clearInterval(interval);
+          clearInterval(intervalId);
+          setTimer(null);
+
+          // Status switching logic should be here, when timer actually ends
+          setStatus((prevStatus) => {
+            console.log('current status: ', prevStatus);
+
+            if (prevStatus === 'work') {
+              console.log('switching to reset');
+              return 'reset';
+            }
+            if (prevStatus === 'reset') {
+              console.log('switching to work');
+              return 'work';
+            }
+
+            return prevStatus;
+          });
+
+          return 0;
         }
 
         return prevTime - 1;
       });
     }, 1000);
 
-    // setTimer(interval);
+    setTimer(intervalId);
   };
 
   return (
