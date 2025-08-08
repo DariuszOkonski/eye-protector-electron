@@ -19,7 +19,7 @@ const Description = () => {
 
 const App = () => {
   const [status, setStatus] = useState('off');
-  const [time, setTime] = useState(6);
+  const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(null);
 
   const formatTime = useMemo(() => {
@@ -36,26 +36,20 @@ const App = () => {
   const startTimer = () => {
     setTime(6);
     setStatus('work');
-    setTimer(() => {
-      const intervalIndex = setInterval(() => {
-        setTime((time) => time - 1);
-        console.log('time: ', time);
 
-        if (time === 0) {
-          console.log('reset all');
-          setTimer(null);
-          setTime(1200);
-          if (status === 'work') {
-            setStatus('reset');
-          }
+    const interval = setInterval(() => {
+      setTime((prevTime) => {
+        console.log('prevTime: ', prevTime);
 
-          if (status === 'reset') {
-            setStatus('work');
-          }
-          setTimer(intervalIndex);
+        if (prevTime <= 1) {
+          clearInterval(interval);
         }
-      }, [1000]);
-    });
+
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    // setTimer(interval);
   };
 
   return (
