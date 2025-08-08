@@ -20,9 +20,14 @@ const Description = () => {
 const WORK_TIME = 6;
 const REST_TIME = 20;
 const INTERVAL = 1000;
+const STATUS = {
+  OFF: 'off',
+  WORK: 'work',
+  RESET: 'reset',
+};
 
 const App = () => {
-  const [status, setStatus] = useState('off');
+  const [status, setStatus] = useState(STATUS.OFF);
   const [time, setTime] = useState(0);
   const [timer, setTimer] = useState(null);
 
@@ -52,7 +57,7 @@ const App = () => {
 
   const startTimer = () => {
     setTime(WORK_TIME);
-    setStatus('work');
+    setStatus(STATUS.WORK);
 
     let intervalId = setInterval(() => {
       setTime((prevTime) => {
@@ -62,7 +67,7 @@ const App = () => {
 
           // Status switching logic should be here, when timer actually ends
           setStatus((prevStatus) => {
-            if (prevStatus === 'work') {
+            if (prevStatus === STATUS.WORK) {
               setTime(REST_TIME);
 
               intervalId = setInterval(() => {
@@ -70,7 +75,7 @@ const App = () => {
                   if (prevTime <= 1) {
                     clearInterval(intervalId);
                     setTimer(null);
-                    setStatus('off');
+                    setStatus(STATUS.OFF);
                   }
 
                   return prevTime - 1;
@@ -79,10 +84,10 @@ const App = () => {
                 setTimer(intervalId);
               }, INTERVAL);
 
-              return 'reset';
+              return STATUS.RESET;
             }
-            if (prevStatus === 'reset') {
-              return 'work';
+            if (prevStatus === STATUS.RESET) {
+              return STATUS.WORK;
             }
 
             return prevStatus;
@@ -101,8 +106,8 @@ const App = () => {
   return (
     <div>
       <h1>Protect your eyes</h1>
-      {status === 'off' && <Description />}
-      {status === 'work' && (
+      {status === STATUS.OFF && <Description />}
+      {status === STATUS.WORK && (
         <React.Fragment>
           <img src='./images/work.png' />
           <div className='timer'>{formatTime}</div>
@@ -111,7 +116,7 @@ const App = () => {
           </button>
         </React.Fragment>
       )}
-      {status === 'reset' && (
+      {status === STATUS.RESET && (
         <React.Fragment>
           <img src='./images/rest.png' />
           <div className='timer'>{formatTime}</div>
@@ -121,7 +126,7 @@ const App = () => {
         </React.Fragment>
       )}
 
-      {status === 'off' && (
+      {status === STATUS.OFF && (
         <React.Fragment>
           <button className='btn' onClick={startTimer}>
             Start
