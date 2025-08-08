@@ -17,7 +17,9 @@ const Description = () => {
   );
 };
 
-const TIME_IN_SECONDS = 6;
+const WORK_TIME = 6;
+const REST_TIME = 20;
+const INTERVAL = 1000;
 
 const App = () => {
   const [status, setStatus] = useState('off');
@@ -45,30 +47,23 @@ const App = () => {
   };
 
   const startTimer = () => {
-    setTime(TIME_IN_SECONDS);
+    setTime(WORK_TIME);
     setStatus('work');
 
     let intervalId = setInterval(() => {
       setTime((prevTime) => {
-        console.log('prevTime: ', prevTime);
-
         if (prevTime <= 1) {
           clearInterval(intervalId);
           setTimer(null);
 
           // Status switching logic should be here, when timer actually ends
           setStatus((prevStatus) => {
-            console.log('current status: ', prevStatus);
-
             if (prevStatus === 'work') {
-              console.log('switching to reset');
-              setTime(10);
+              setTime(REST_TIME);
 
               intervalId = setInterval(() => {
-                console.log('another interval');
                 setTime((prevTime) => {
                   if (prevTime <= 1) {
-                    console.log('END HERE');
                     clearInterval(intervalId);
                     setTimer(null);
                     setStatus('off');
@@ -78,12 +73,11 @@ const App = () => {
                 });
 
                 setTimer(intervalId);
-              }, 1000);
+              }, INTERVAL);
 
               return 'reset';
             }
             if (prevStatus === 'reset') {
-              console.log('switching to work');
               return 'work';
             }
 
@@ -95,7 +89,7 @@ const App = () => {
 
         return prevTime - 1;
       });
-    }, 1000);
+    }, INTERVAL);
 
     setTimer(intervalId);
   };
