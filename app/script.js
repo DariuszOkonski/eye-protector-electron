@@ -39,7 +39,7 @@ const App = () => {
     setTime(TIME_IN_SECONDS);
     setStatus('work');
 
-    const intervalId = setInterval(() => {
+    let intervalId = setInterval(() => {
       setTime((prevTime) => {
         console.log('prevTime: ', prevTime);
 
@@ -53,6 +53,17 @@ const App = () => {
 
             if (prevStatus === 'work') {
               console.log('switching to reset');
+              setTime(TIME_IN_SECONDS);
+
+              intervalId = setInterval(() => {
+                console.log('another interval');
+                setTime((prevTime) => {
+                  return prevTime - 1;
+                });
+
+                setTimer(intervalId);
+              }, 1000);
+
               return 'reset';
             }
             if (prevStatus === 'reset') {
@@ -84,7 +95,13 @@ const App = () => {
           <button className='btn'>Stop</button>
         </React.Fragment>
       )}
-      {status === 'reset' && <img src='./images/rest.png' />}
+      {status === 'reset' && (
+        <React.Fragment>
+          <img src='./images/rest.png' />
+          <div className='timer'>{formatTime}</div>
+          <button className='btn'>Stop</button>
+        </React.Fragment>
+      )}
 
       {status === 'off' && (
         <React.Fragment>
