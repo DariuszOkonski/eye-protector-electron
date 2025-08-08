@@ -53,17 +53,6 @@ const App = () => {
 
             if (prevStatus === 'work') {
               console.log('switching to reset');
-              setTime(TIME_IN_SECONDS);
-
-              intervalId = setInterval(() => {
-                console.log('another interval');
-                setTime((prevTime) => {
-                  return prevTime - 1;
-                });
-
-                setTimer(intervalId);
-              }, 1000);
-
               return 'reset';
             }
             if (prevStatus === 'reset') {
