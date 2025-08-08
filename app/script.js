@@ -35,6 +35,15 @@ const App = () => {
     return `${formattedMinutes}:${formattedSeconds}`;
   }, [time]);
 
+  const stopTimer = () => {
+    if (timer) {
+      clearInterval(timer);
+      setTimer(null);
+    }
+    setTime(0);
+    setStatus('off');
+  };
+
   const startTimer = () => {
     setTime(TIME_IN_SECONDS);
     setStatus('work');
@@ -99,14 +108,18 @@ const App = () => {
         <React.Fragment>
           <img src='./images/work.png' />
           <div className='timer'>{formatTime}</div>
-          <button className='btn'>Stop</button>
+          <button className='btn' onClick={stopTimer}>
+            Stop
+          </button>
         </React.Fragment>
       )}
       {status === 'reset' && (
         <React.Fragment>
           <img src='./images/rest.png' />
           <div className='timer'>{formatTime}</div>
-          <button className='btn'>Stop</button>
+          <button className='btn' onClick={stopTimer}>
+            Stop
+          </button>
         </React.Fragment>
       )}
 
